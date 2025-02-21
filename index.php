@@ -24,7 +24,7 @@ $stmt->execute();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="footer.css">
-    <title>Kaposbusz</title>
+    <title>KaposTransit</title>
     <style>
      @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
