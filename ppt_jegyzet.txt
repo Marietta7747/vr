@@ -1,0 +1,50 @@
+Főbb vonalakra kategorizált menetrend
+ - Jaratok.php
+ - Indulasidok.php
+ - Megalloidok.php
+ - buszjaratok tábla
+
+Jaratok.php
+ - minden járat kilistázva
+ - dátumkiválasztó
+	- hétvégi dátumkiválasztás esetén csak hétvégi 			járatok jelenek meg
+ - kattintásra elvisz az adott számú járat indulás ideinek  oldalára
+
+Indulasidok.php
+ - az adott számú járat indulás idei
+ - ha van visszaútja akkor az oda-vissza nyílas gombbal irányt lehet váltani
+ - kattintásra elvisz az adott számú járat megállókhoz  érkező ideinek oldalára
+ - hétvégi indulás idők kilistázása még nem lehetséges
+
+Megalloidok.php
+ - megállókhoz való érkezés ideje
+
+Főoldal
+ - bejelenkezés után
+ - aktuális hírek röviden
+ - egyszerre 6 hír, még több hír gombra nyomva összes hír
+
+Hírek oldal
+ - főoldalon részletek gombra kattintva
+ - hírek részletes kiírása
+ - hirek és kepek tábla
+
+Tesztelés
+ - Automatizált tesztelés
+	- Playwright
+	- tesztelési framework, end-to-end teszteléshez 	webalkalmazásokhoz
+ - Manuális tesztelés
+	- tesztesetek.xlsx
+	- teszteset leírás
+
+Automatizált tesztelés
+ - oldalak betöltése
+ - API végpontok és válaszainak ellenőrzése
+ - komponensek tesztelése
+ - info oldalon linkek
+
+Automatizált tesztelés
+ tesztesetek eredménye kép
+
+Manuális tesztelés
+ tesztesetek.xlsx kép
