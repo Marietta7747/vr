@@ -7,7 +7,7 @@ Főbb vonalakra kategorizált menetrend
 Jaratok.php
  - minden járat kilistázva
  - dátumkiválasztó
-	- hétvégi dátumkiválasztás esetén csak hétvégi 			járatok jelenek meg
+	- hétvégi dátumkiválasztás esetén csak hétvégi járatok jelenek meg
  - kattintásra elvisz az adott számú járat indulás ideinek  oldalára
 
 Indulasidok.php
@@ -32,7 +32,7 @@ Hírek oldal
 Tesztelés
  - Automatizált tesztelés
 	- Playwright
-	- tesztelési framework, end-to-end teszteléshez 	webalkalmazásokhoz
+	- tesztelési framework, end-to-end teszteléshez webalkalmazásokhoz
  - Manuális tesztelés
 	- tesztesetek.xlsx
 	- teszteset leírás
