@@ -2,6 +2,8 @@
 
 ###### 9.1 Automatizált tesztelés
 
+Az automatizált tesztelés Playwright-al lett letesztelve, ami egy gyors és megbízható end-to-end tesztelést biztosít modern weboldalakra/webalkalmazásokra.
+
 Az automatizált tesztelésnél ellenőriztük, hogy minden oldal rendesen betöltött-e.
 ```Javascript
 for (const pageInfo of pages) {
