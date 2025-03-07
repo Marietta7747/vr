@@ -1,0 +1,129 @@
+## 9. Tesztelés:
+
+###### 9.1 Automatizált tesztelés
+
+Az automatizált tesztelésnél ellenőriztük, hogy minden oldal rendesen betöltött-e.
+```Javascript
+for (const pageInfo of pages) {
+    test(`${pageInfo.title} oldal betöltése`, async ({ page }) => {
+      await page.goto(`http://localhost/kkzrt/${pageInfo.url}`);
+      await expect(page).toHaveURL(`http://localhost/kkzrt/${pageInfo.url}`);
+    });
+  }
+```
+A program végig megy a pages listán ahol elvan tárolva az egyes oldalak url-je, amit úgy ellenőriztünk, hogy a tesztelő programnak megadott url megegyezik-e a kapott url-lel.
+
+Ezentúl ellenőrzi, hogy az egyes API végpontok lekérései igaz értékkel tértek vissza.
+```Javascript
+for (const endpoint of workingApiEndpoints) {
+    test(`${endpoint.name} API végpont ellenőrzése`, async ({ request }) => {
+      const response = await request.get(`http://localhost:3000/${endpoint.url}`);
+      expect(response.ok()).toBeTruthy();
+    });
+  }
+```
+Ugyan úgy, mint az előbb van egy listánk, ami végig megy a programrészen és lekérdezéseket tesz, várva, hogy true értékkel térjen vissza, hogy sikeresnek ítélje a program a tesztesetet.
+
+Ezek után jönnek a komponensek tesztelése, mi megnézi, hogy a térképek láthatóra van-e állítva,
+```Javascript
+test('Térkép megjelenítés', async ({ page }) => {
+    await page.goto('http://localhost/kkzrt/terkep.php');
+    await expect(page.locator('#map')).toBeVisible();
+
+    await page.goto('http://localhost/kkzrt/megallok_kereso.php');
+    await expect(page.locator('#map')).toBeVisible();
+  });
+```
+mindezt azzal, hogy megkeresi a térképeket és, hogy azok értéke láthatóra van-e állítva. (Érthetően ez a teszteset nem ellenőrzi, hogy helyesen működik-e a térképek, ami a mi esetünkben nem menne át a teszten az Google Maps API kulcs hiánya miatt.)
+
+A következő komponens, amit tesztel azaz összes hírnek a kilistázása.
+```Javascript
+test('Az összes hír kilistázása', async ({ page }) => {
+    await page.goto('http://localhost/kkzrt/index.php');
+
+    const btn = await page.locator('#btnMoreNews');
+
+    let isExpanded = await page.evaluate(() => window.isExpanded = false);
+    expect(isExpanded).toBeFalsy();
+
+    await btn.click();
+
+    isExpanded = await page.evaluate(() => window.isExpanded = true);
+    expect(isExpanded).toBeTruthy();
+  });
+```
+A teszteset megnézi, hogy a gomb megnyomása után az isExpanded értéke megváltozik-e igazra, ami a helyes működésnél is megváltozna.
+
+Az utolsó komponens teszteset a Részletek gomb helyes átirányítását, teszteli.
+```Javascript
+test('Főoldalon részletek gomb ellenőrzése', async ({ page }) => {
+    await page.goto('http://localhost/kkzrt/index.php');
+    await page.click('text=Részletek');
+    await expect(page).toHaveURL('http://localhost/kkzrt/news.php?id=1')
+  });
+```
+A teszt közben elmegy a főoldalra, megnyomja a Részletek gombot és megnézi, hogy az adott oldalra vezetett-e át.
+
+Az utolsó előtti része a programnak az API végpontok válaszát vizsgálják.
+```Javascript
+test('API válaszok ellenőrzése', async ({ request }) => {
+    // Megállók API teszt
+    const stopsResponse = await request.get('http://localhost:3000/api/stop');
+    const stopsData = await stopsResponse.json();
+    expect(Array.isArray(stopsData)).toBeTruthy();
+    
+    // A többi másik API végpontot is ugyanígy lett tesztelve 
+});
+```
+Ennél is lekérdezéseket végzünk, aminek a válaszának adatát eltároljuk és a program megnézi, hogy tömb-e a kapott adat.
+
+Az utolsó teszteset megnézi, hogy az infó oldalon lévő linkek valós helyre mutatnak.
+```Javascript
+test('404-es linkek keresése', async ({ page }) => {
+    await page.goto('http://localhost/kkzrt/info.php');
+
+    const links = await page.locator('a').all();
+    let brokenLinks = [];
+
+    for (const link of links) {
+        const href = await link.getAttribute('href');
+
+        if (href && !href.startsWith('#')) {
+            const response = await page.request.get(href);
+
+            if (response.status() === 404) {
+                console.log(`❌ 404 ERROR: ${href}`);
+                brokenLinks.push(href);
+            }
+        }
+    }
+
+    console.log(`✅ Checked ${links.length} links. Found ${brokenLinks.length} broken links.`);
+
+    // Force the test to fail if any broken links exist
+    expect(brokenLinks.length).toBe(0);
+  });
+```
+A program megnyitja az összes linket és, ha valamelyik 404-es oldalra mutat, akkor az adott linket belerakja egy listába és később kiírja. A teszt akkor sikeres, ha egyetlen link sem vezet 404-es oldalra.
+
+<img src="automated_tests.jpg">  
+
+<center>  
+
+**Automatizált tesztesetek**  
+
+</center>
+
+###### 9.2 Manuális tesztelés:
+
+
+
+<img src="tesztesetek.jpg">
+
+<center>  
+
+**Manuális tesztesetek**  
+
+</center>
+
+További részletben kérjük nézze meg a mellékelt tesztesetek.xlsx fájlt, ahol le van írva az összes teszteset, amit manuálisan végeztünk.
